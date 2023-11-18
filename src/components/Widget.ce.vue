@@ -1,15 +1,6 @@
 <template>
   <div v-cloak id="root" :style="cssProps">
     <canvas id="confetti" ref="confetti"></canvas>
-    <div class="logo">
-      <a href="https://widgets.twentyuno.net" target="_blank" rel="noreferer noopener">
-        <svg width="16" height="16" viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg"
-          style="vertical-align: top">
-          <path class="map-fill-color"
-            d="M734.996 365.822C735.163 402.397 729.869 438.926 719.176 474.179C705.521 519.191 683.391 561.042 654.102 597.533C647.681 605.534 640.915 613.277 633.82 620.739L434.558 820H820V434.558L751.95 502.608C753.904 497.05 755.739 491.443 757.453 485.791C776.906 421.662 780.244 353.726 767.17 288C764.214 273.137 760.439 258.491 755.875 244.125L1000 0V1000H0L494.151 505.762C531.551 471.484 555 422.23 555 367.5C555 263.947 471.053 180 367.5 180C263.947 180 180 263.947 180 367.5C180 471.053 263.947 555 367.5 555C374.99 555 382.377 554.561 389.637 553.707L233.528 709.816C96.8161 656.27 0 523.191 0 367.5C0 164.535 164.535 0 367.5 0C569.905 0 734.092 163.629 734.996 365.822Z"
-            fill="#FFF" />
-        </svg></a>
-    </div>
     <div class="back">
       <a href="javascript:void(0)" @click="back()" v-if="step != 'start' && step != 'error' && step != 'thankyou'">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -30,35 +21,51 @@
     <div class="card" v-bind:style="backgroundImageStyle">
       <Transition name="fade" mode="out-in">
         <div v-if="step == 'start'">
-          <div><img v-if="image" class="image" :src="image" width="150" height="150" :alt="name" /></div>
+          <!-- <div><img v-if="image" class="image" :src="image" width="150" height="150" :alt="name" /></div>
           <div>
             <h3>{{ name }}</h3>
-          </div>
+          </div> -->
           <div>
-            <button type="button" class="button" @click="showAmount()">{{ buttonText }}</button>
+            <button type="button" class="button" @click="showAmount()">Pay With Lightning ⚡️ </button>
+
+            <button type="button" class="button" @click="showAmount()">Pay With Bitcoin </button>
+
+
           </div>
         </div>
         <div v-else-if="step == 'amount'">
           <div>
-            <h3>How many sats?</h3>
+            <h3>Total Bitcoin to pay</h3>
+            <h1>{{ this.setAmount }}</h1>
+            <h3>{{ this.convertFiat }} dollar</h3>
+            <h4>Curent bitcoin price {{ this.btcprice }} $</h4>
+            <h5>provided by YieldMonitor.io</h5>
+            <!-- <h4>Change Fiat Estimate</h4> -->
+
           </div>
           <div class="mb-1">
             <div class="pill-container">
-              <div class="pill" v-bind:key="item.amount" v-for="item in amountList" @click="currentAmount = item.amount">{{
-                item.label }}</div>
+
+              <!-- <div class="pill" >EURO </div>
+
+
+              <div class="pill" >DOLLAR</div> -->
+
+              <!-- <div class="pill" v-bind:key="item.amount" v-for="item in amountList" @click="currentAmount = item.amount">{{
+                item.label }}</div> -->
             </div>
-            <input type="number" class="mb-1" name="amount" placeholder="Enter an amount" required
-              v-model.number="currentAmount" />
+            <!-- <input type="number" class="mb-1" name="amount" placeholder="Enter an amount" required
+              v-model.number="currentAmount" /> -->
+              
           </div>
           <div>
             <button type="button" class="button" @click="showNote()">Next</button>
           </div>
         </div>
         <div v-else-if="step == 'note'">
-          <h3>Want to add a note?</h3>
-          <textarea id="comment" class="mb-1" name="comment" placeholder="Enter your note" rows="4"
-            v-model="comment" :maxlength="this.params.commentAllowed"></textarea>
-          <button type="button" class="button" @click="step = 'pay'; pay()">Next</button>
+          <h3>Order ID: 69</h3>
+          <input v-model="comment" class="hidden" />
+          <button type="button" class="button" @click="step = 'pay'; pay()">Proceed To Pay</button>
         </div>
         <div v-else-if="step == 'pay'">
           <svg width="100" height="100" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
@@ -120,13 +127,13 @@
           </Transition>
         </div>
         <div v-else-if="step == 'thankyou'">
-          <div><img v-if="image" class="image" :src="image" width="150" height="150" :alt="name" /></div>
+          <!-- <div><img v-if="image" class="image" :src="image" width="150" height="150" :alt="name" /></div> -->
           <div>
-            <h3>Thank you</h3>
+            <h3>Thank you, Your order is recieved!</h3>
           </div>
-          <div>
+          <!-- <div>
             <button class="button" @click="reset(); step = 'start'">Start over</button>
-          </div>
+          </div> -->
         </div>
         <div v-else-if="step == 'error'">
           <h3 style="margin-bottom: 0">{{ errorTitle }}</h3>
@@ -142,13 +149,14 @@
 import JSConfetti from 'js-confetti'
 import { fetchInvoice, fetchParams, contrastingColor, luma, formatAmount } from './utils/helpers';
 
+
 export default {
   name: "LightningWidget",
   props: {
     name: { type: String, required: true },
     to: { type: String, required: true, default: "reneaaron@getalby.com" },
 
-    amounts: { type: String, required: false, default: "10,100,1000" },
+    amounts: { type: String, required: false, default: "Euro,Dollar" },
     labels: { type: String, required: false },
 
     // Style
@@ -166,7 +174,9 @@ export default {
   },
   data() {
     return {
-      currentAmount: this.amount,
+      currentAmount: '2500',
+      setAmount: '0.00025',
+      convertFiat: '',
       params: {},
       loading: false,
       paymentRequest: null,
@@ -175,6 +185,7 @@ export default {
       qrTimeoutElapsed: false,
       paymentType: 'Invoice',
       errorTitle: '',
+      btcprice:'',
       errorMessage: '',
       amountList: [],
     };
@@ -193,8 +204,10 @@ export default {
     backgroundImageStyle() {
       return this.backgroundImage ? { 'background-image': `url('${this.backgroundImage}')` } : {};
     }
+    
   },
   async mounted() {
+
     const labels = this.labels ? this.labels.split(",") : [];
     this.amountList = this.amounts.split(",").slice(0, 3).map((x, i) => {
       return {
@@ -211,6 +224,7 @@ export default {
 
     document.head.appendChild(fontImport);
 
+    this.fetchBitcoinPrice();
     // Keysend payments
     if (this.to.match(/^[0-9a-fA-F]{66}$/i)) {
       this.paymentType = "Keysend";
@@ -238,6 +252,28 @@ export default {
     pay: async function () {
       await this['pay' + this.paymentType]();
     },
+
+    fetchBitcoinPrice() {
+      fetch('https://app.yieldmonitor.io/api/v2/symbol/ym/33913')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+          
+        })
+        .then(data => {
+          this.btcprice = Number(data.symbols[0].price).toFixed(2)
+          this.convertFiat = (this.btcprice * Number(this.setAmount)).toFixed(2)
+          // this.btcprice = Number(data._rawValue
+          // console.log(datasub)
+        })
+        .catch(error => {
+          console.error('Error fetching Bitcoin price:', error);
+          // Handle error (e.g., set btcprice to a default value or show an error message)
+        });
+    },
+
     payKeysend: async function () {
       let error = false;
 
@@ -465,6 +501,10 @@ nav ul {
 blockquote,
 q {
   quotes: none
+}
+
+.hidden{
+  display: none;
 }
 
 blockquote:after,
@@ -715,6 +755,13 @@ a:hover {
   pointer-events: none;
 }
 
+h1 {
+  font-size: 44px;
+  margin: 1em;
+  line-height: 29px;
+
+}
+
 h3 {
   font-size: 24px;
   margin: 1em;
@@ -723,6 +770,12 @@ h3 {
 
 h4 {
   font-size: 17px;
+  margin: 1em;
+  line-height: 21px;
+}
+
+h5 {
+  font-size: 10px;
   margin: 1em;
   line-height: 21px;
 }

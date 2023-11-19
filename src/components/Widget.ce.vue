@@ -664,8 +664,7 @@ select {
 }
 
 .margins{
-  margin-right: 10px ;
-  margin-left: 10px;
+  margin: 10px ;
 }
 
 .button:hover {

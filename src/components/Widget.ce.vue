@@ -88,6 +88,22 @@ viewBox="0 0 4257.46 889.51"
         <div v-else-if="step == 'note'">
           <h3>Order ID: 69</h3>
           <input v-model="comment" class="hidden" />
+          <p>
+          Product: <br><span> {{ this.order.product }}</span>
+        </p>
+        <p>
+          Quantity:
+        </p>
+        <p>
+          Shipping:
+        </p>
+          
+          
+          
+          
+          
+          
+          
           <button type="button" class="button" @click="step = 'pay'; pay()">Proceed To Pay</button>
         </div>
         <div v-else-if="step == 'pay'">
@@ -140,8 +156,9 @@ viewBox="0 0 4257.46 889.51"
         <div v-else-if="step == 'qr'">
           <div class="mb-1">
             <a :href="'lightning:' + paymentRequest">
-              <img class="qr" width="150" height="150" :src="'https://embed.twentyuno.net/qr/' + paymentRequest"
-                alt="qr" />
+              <!-- <img class="qr" width="150" height="150" :src="'https://embed.twentyuno.net/qr/' + paymentRequest"
+                alt="qr" /> -->
+                <img :src="qrCodeDataUrl" class="qr" width="150" height="150" alt="QR Code" />
             </a>
           </div>
           <Transition name="fade" mode="out-in">
@@ -171,6 +188,7 @@ viewBox="0 0 4257.46 889.51"
 <script>
 import JSConfetti from 'js-confetti'
 import { fetchInvoice, fetchParams, contrastingColor, luma, formatAmount } from './utils/helpers';
+import QRCode from 'qrcode';
 
 
 export default {
@@ -181,6 +199,9 @@ export default {
 
     amounts: { type: String, required: false, default: "Euro,Dollar" },
     labels: { type: String, required: false },
+
+    // Order
+    order: { type: Object, required: true, default: () => ({product:'lol', amount:'1', shipping:'0.0023'}), },
 
     // Style
     image: { type: String, required: true },
@@ -210,6 +231,7 @@ export default {
       errorTitle: '',
       btcprice:'',
       errorMessage: '',
+      qrCodeDataUrl: '',
       amountList: [],
     };
   },
@@ -230,6 +252,9 @@ export default {
     
   },
   async mounted() {
+
+
+
 
     const labels = this.labels ? this.labels.split(",") : [];
     this.amountList = this.amounts.split(",").slice(0, 3).map((x, i) => {
@@ -274,6 +299,16 @@ export default {
     },
     pay: async function () {
       await this['pay' + this.paymentType]();
+
+          QRCode.toDataURL(this.paymentRequest, (error, dataUrl) => {
+            if (error) {
+              console.error('Error generating QR code:', error);
+            } else {
+              this.qrCodeDataUrl = dataUrl;
+            }
+          });
+
+
     },
 
     fetchBitcoinPrice() {

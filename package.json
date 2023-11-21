@@ -16,7 +16,7 @@
     "invoices": "^2.0.4",
     "js-confetti": "^0.10.2",
     "lnurl-pay": "^0.2.3",
-    "qrcode": "^1.5.0",
+    "qrcode": "^1.5.3",
     "stream": "^0.0.2",
     "vue": "^3.2.32",
     "vue-custom-element": "^3.3.0",
@@ -24,13 +24,13 @@
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",
-    "eslint": "^8.14.0",
-    "babel-eslint": "^10.1.0",
     "@babel/eslint-parser": "^7.17.0",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "@vue/compiler-sfc": "^3.2.31",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^8.14.0",
     "eslint-plugin-vue": "^8.7.1",
     "webpack-bundle-analyzer": "^4.5.0"
   }

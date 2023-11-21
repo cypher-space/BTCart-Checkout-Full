@@ -86,16 +86,16 @@ viewBox="0 0 4257.46 889.51"
           </div>
         </div>
         <div v-else-if="step == 'note'">
-          <h3>Order ID: 69</h3>
+          <h3>Order ID: {{ this.order.orderid }}</h3>
           <input v-model="comment" class="hidden" />
           <p>
           Product: <br><span> {{ this.order.product }}</span>
         </p>
         <p>
-          Quantity:
+          Quantity:<br><span> {{ this.order.amount }}</span>
         </p>
         <p>
-          Shipping:
+          Shipping:<br><span> {{ this.order.shipping }}</span>
         </p>
           
           
@@ -195,13 +195,13 @@ export default {
   name: "LightningWidget",
   props: {
     name: { type: String, required: true },
-    to: { type: String, required: true, default: "reneaaron@getalby.com" },
+    to: { type: String, required: true, default: "sync@walletofsatoshi.com" },
 
     amounts: { type: String, required: false, default: "Euro,Dollar" },
     labels: { type: String, required: false },
 
     // Order
-    order: { type: Object, required: true, default: () => ({product:'lol', amount:'1', shipping:'0.0023'}), },
+    order: { type: Object, required: true, default: () => ({orderid:'1', product:'stickers', amount:'1', shipping:'0.000002', total:0.000004, sats:4000}) },
 
     // Style
     image: { type: String, required: true },
@@ -218,14 +218,14 @@ export default {
   },
   data() {
     return {
-      currentAmount: '2500',
-      setAmount: '0.000025',
+      currentAmount: '5000',
+      setAmount: '0.00005',
       convertFiat: '',
       params: {},
       loading: false,
       paymentRequest: null,
       step: this.initialStep,
-      comment: 'ID: 69',
+      comment: 'this.order.orderid',
       qrTimeoutElapsed: false,
       paymentType: 'Invoice',
       errorTitle: '',
@@ -322,7 +322,7 @@ export default {
         })
         .then(data => {
           this.btcprice = Number(data.symbols[0].price).toFixed(2)
-          this.convertFiat = (this.btcprice * Number(this.setAmount)).toFixed(2)
+          this.convertFiat = (Number(this.btcprice) * Number(this.setAmount)).toFixed(2)
           // this.btcprice = Number(data._rawValue
           // console.log(datasub)
         })

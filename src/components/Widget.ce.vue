@@ -86,16 +86,16 @@ viewBox="0 0 4257.46 889.51"
           </div>
         </div>
         <div v-else-if="step == 'note'">
-          <h3>Order ID: {{ this.order.orderid }}</h3>
+          <h3>Order ID: {{ this.orderid }}</h3>
           <input v-model="comment" class="hidden" />
           <p>
-          Product: <br><span> {{ this.order.product }}</span>
+          Products: <br><span> {{ this.products }}</span>
         </p>
-        <p>
+        <!-- <p>
           Quantity:<br><span> {{ this.order.amount }}</span>
-        </p>
+        </p> -->
         <p>
-          Shipping:<br><span> {{ this.order.shipping }}</span>
+          Shipping:<br><span> {{ this.shippingpay }}</span>
         </p>
           
           
@@ -201,7 +201,8 @@ export default {
     labels: { type: String, required: false },
 
     // Order
-    order: { type: Object, required: true, default: () => ({orderid:'1', product:'stickers', amount:'1', shipping:'0.000002', total:0.000004, sats:4000}) },
+    products: { type: String, default:'stickers, books, tshirt' },
+    orderid: { type: String, default:'13' },
 
     // Style
     image: { type: String, required: true },
@@ -215,17 +216,23 @@ export default {
     // Debugging purposes only 
     debug: { type: Boolean, default: false },
     initialStep: { type: String, default: 'start' },
+
+    // Amounts
+    payamount: {type: Number, default: 800},
+    setpayamount: {type: Number, default: 0.00008},
+    shippingpay: {type: Number, default: 0.00003},
+
   },
   data() {
     return {
-      currentAmount: '5000',
-      setAmount: '0.00005',
+      currentAmount: this.payamount,
+      setAmount: this.setpayamount,
       convertFiat: '',
       params: {},
       loading: false,
       paymentRequest: null,
       step: this.initialStep,
-      comment: 'this.order.orderid',
+      comment: this.orderid,
       qrTimeoutElapsed: false,
       paymentType: 'Invoice',
       errorTitle: '',

@@ -51,13 +51,14 @@ viewBox="0 0 4257.46 889.51"
           <div>
             <button type="button" class="button margins" @click="showAmount()">⚡️ Lightning Network </button>
 
-            <button type="button" class="button margins" @click="showAmount()">⛓️ Onchain Transaction </button>
+            <button type="button" class="button margins" @click="showAmountbtc()">⛓️ Onchain Transaction </button>
 
 
           </div>
         </div>
         <div v-else-if="step == 'amount'">
           <div>
+            <h1>⚡️<br> Lightning Invoice</h1>
             <h3>Total Bitcoin to pay</h3>
             <h1>{{ this.setAmount }}</h1>
             <h3>{{ this.convertFiat }} dollar</h3>
@@ -85,6 +86,40 @@ viewBox="0 0 4257.46 889.51"
             <button type="button" class="button" @click="showNote()">Next</button>
           </div>
         </div>
+
+        <div v-else-if="step == 'amountbtc'">
+          <div>
+            <h1>⛓️<br> Onchain Invoice</h1>
+            <h3>Total Bitcoin to pay</h3>
+            <h1>{{ this.setAmount }}</h1>
+            <h3>{{ this.convertFiat }} dollar</h3>
+            <h5>This transaction will add onchain fees</h5>
+            <h4>Curent bitcoin price {{ this.btcprice }} $</h4>
+            <h5>provided by YieldMonitor.io</h5>
+            <!-- <h4>Change Fiat Estimate</h4> -->
+
+          </div>
+          <div class="mb-1">
+            <div class="pill-container">
+
+              <!-- <div class="pill" >EURO </div>
+
+
+              <div class="pill" >DOLLAR</div> -->
+
+              <!-- <div class="pill" v-bind:key="item.amount" v-for="item in amountList" @click="currentAmount = item.amount">{{
+                item.label }}</div> -->
+            </div>
+            <!-- <input type="number" class="mb-1" name="amount" placeholder="Enter an amount" required
+              v-model.number="currentAmount" /> -->
+              
+          </div>
+          <div>
+            <button type="button" class="button" @click="showNotebtc()">Next</button>
+          </div>
+        </div>
+
+
         <div v-else-if="step == 'note'">
           <h3>Order ID: {{ this.orderid }}</h3>
           <input v-model="comment" class="hidden" />
@@ -106,6 +141,46 @@ viewBox="0 0 4257.46 889.51"
           
           <button type="button" class="button" @click="step = 'pay'; pay()">Proceed To Pay</button>
         </div>
+
+        <div v-else-if="step == 'notebtc'">
+          <h3>Order ID BTC: {{ this.orderid }}</h3>
+          <input v-model="comment" class="hidden" />
+          <p>
+          Products: <br><span> {{ this.products }}</span>
+        </p>
+        <!-- <p>
+          Quantity:<br><span> {{ this.order.amount }}</span>
+        </p> -->
+        <p>
+          Shipping:<br><span> {{ this.shippingpay }}</span>
+        </p>
+          
+          
+          
+          
+          
+          
+          
+          <button type="button" class="button" @click="step = 'qrbtc'; paybtc()">Proceed To Pay</button>
+        </div>
+
+
+        <div v-else-if="step == 'qrbtc'">
+          <div class="mb-1">
+            <a :href="'bitcoin:'+ this.btcadressprop + '?amount=' + this.setpayamount + '&message=' + this.orderid">
+              <!-- <img class="qr" width="150" height="150" :src="'https://embed.twentyuno.net/qr/' + paymentRequest"
+                alt="qr" /> -->
+                <img :src="qrCodeDataUrlbtc" class="qr" width="150" height="150" alt="QR Code" />
+            </a>
+          </div>
+          <Transition name="fade" mode="out-in">
+            <h4 class="qr-heading" v-if="!qrTimeoutElapsed">Scan or Click to pay</h4>
+            <button v-else class="button" @click="step = 'thankyou'; celebrate()">Done?</button>
+          </Transition>
+        </div>
+
+
+
         <div v-else-if="step == 'pay'">
           <svg width="100" height="100" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -163,7 +238,7 @@ viewBox="0 0 4257.46 889.51"
           </div>
           <Transition name="fade" mode="out-in">
             <h4 class="qr-heading" v-if="!qrTimeoutElapsed">Scan or Click to pay</h4>
-            <button v-else class="button" @click="step = 'thankyou'; celebrate()">Done?</button>
+            <!-- <button v-else class="button" @click="step = 'thankyou'; celebrate()">Done?</button> -->
           </Transition>
         </div>
         <div v-else-if="step == 'thankyou'">
@@ -212,6 +287,8 @@ export default {
 
     // Deprecated --> use `to`
     address: { type: String, required: false, default: "reneaaron@getalby.com" },
+    addressbtc: { type: String, required: false, default: "bc1qr7t5l8jp8hu9wyhtyg6es644kj2m5rm3hcqak9" },
+
 
     // Debugging purposes only 
     debug: { type: Boolean, default: false },
@@ -239,6 +316,8 @@ export default {
       btcprice:'',
       errorMessage: '',
       qrCodeDataUrl: '',
+      qrCodeDataUrlbtc: '',
+      btcadressprop: this.addressbtc,
       amountList: [],
     };
   },
@@ -317,6 +396,21 @@ export default {
 
 
     },
+
+    paybtc: async function () {
+      // await this['pay' + this.paymentType]();
+      let btcinvoice = 'bitcoin:'+ this.btcadressprop + '?amount=' + this.setpayamount + '&message=' + this.orderid
+          QRCode.toDataURL(btcinvoice, (error, dataUrl) => {
+            if (error) {
+              console.error('Error generating QR code:', error);
+            } else {
+              this.qrCodeDataUrlbtc = dataUrl;
+            }
+          });
+
+
+    },
+
 
     fetchBitcoinPrice() {
       fetch('https://app.yieldmonitor.io/api/v2/symbol/ym/33913')
@@ -416,6 +510,11 @@ export default {
       this.params = await fetchParams(this.to);
       this.step = 'amount';
     },
+    showAmountbtc: async function() {
+      this.params = await fetchParams(this.to);
+      this.step = 'amountbtc';
+    },
+
     showNote: function() {
       if(this.currentAmount <= 0)
         return;
@@ -427,6 +526,18 @@ export default {
         this.pay();
       }
     },
+    showNotebtc: function() {
+      if(this.currentAmount <= 0)
+        return;
+
+      if(this.params.commentAllowed > 0) {
+        this.step = 'notebtc';
+      } else {
+        this.step = 'paybtc';
+        this.pay();
+      }
+    },
+
     showQR: function () {
       this.qrTimeoutElapsed = false;
       this.step = 'qr';

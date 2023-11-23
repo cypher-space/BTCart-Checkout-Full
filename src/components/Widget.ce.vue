@@ -1,23 +1,7 @@
 <template>
   <div v-cloak id="root" :style="cssProps">
     <canvas id="confetti" ref="confetti"></canvas>
-    <div class="back">
-      <a href="javascript:void(0)" @click="back()" v-if="step != 'start' && step != 'error' && step != 'thankyou'">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g clip-path="url(#clip0_27_452)">
-            <path class="inherit-textcolor"
-              d="M13.8994 6.99833e-10L4.70703 9.19239C4.3165 9.58291 4.3165 10.2161 4.70703 10.6066L13.8994 19.799"
-              stroke="white" stroke-width="2" stroke-linecap="round" />
-          </g>
-          <defs>
-            <clipPath id="clip0_27_452">
-              <rect width="20" height="20" fill="white" />
-            </clipPath>
-          </defs>
-        </svg>
 
-      </a>
-    </div>
     <div class="card" v-bind:style="backgroundImageStyle">
       <Transition name="fade" mode="out-in">
         <div v-if="step == 'start'">
@@ -57,6 +41,26 @@ viewBox="0 0 4257.46 889.51"
           </div>
         </div>
         <div v-else-if="step == 'amount'">
+
+          <div class="back">
+      <a href="javascript:void(0)" @click="step = 'start'" v-if="step != 'start' && step != 'error' && step != 'thankyou'">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_27_452)">
+            <path class="inherit-textcolor"
+              d="M13.8994 6.99833e-10L4.70703 9.19239C4.3165 9.58291 4.3165 10.2161 4.70703 10.6066L13.8994 19.799"
+              stroke="white" stroke-width="2" stroke-linecap="round" />
+          </g>
+          <defs>
+            <clipPath id="clip0_27_452">
+              <rect width="20" height="20" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+
+      </a>
+    </div>
+
+
           <div>
             <h1>⚡️<br> Lightning Invoice</h1>
             <h3>Total Bitcoin to pay</h3>
@@ -88,6 +92,25 @@ viewBox="0 0 4257.46 889.51"
         </div>
 
         <div v-else-if="step == 'amountbtc'">
+
+          <div class="back">
+      <a href="javascript:void(0)" @click="step = 'start'" v-if="step != 'start' && step != 'error' && step != 'thankyou'">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_27_452)">
+            <path class="inherit-textcolor"
+              d="M13.8994 6.99833e-10L4.70703 9.19239C4.3165 9.58291 4.3165 10.2161 4.70703 10.6066L13.8994 19.799"
+              stroke="white" stroke-width="2" stroke-linecap="round" />
+          </g>
+          <defs>
+            <clipPath id="clip0_27_452">
+              <rect width="20" height="20" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+
+      </a>
+    </div>
+
           <div>
             <h1>⛓️<br> Onchain Invoice</h1>
             <h3>Total Bitcoin to pay</h3>
@@ -121,6 +144,25 @@ viewBox="0 0 4257.46 889.51"
 
 
         <div v-else-if="step == 'note'">
+
+          <div class="back">
+      <a href="javascript:void(0)" @click="step = 'amount'" v-if="step != 'start' && step != 'error' && step != 'thankyou'">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_27_452)">
+            <path class="inherit-textcolor"
+              d="M13.8994 6.99833e-10L4.70703 9.19239C4.3165 9.58291 4.3165 10.2161 4.70703 10.6066L13.8994 19.799"
+              stroke="white" stroke-width="2" stroke-linecap="round" />
+          </g>
+          <defs>
+            <clipPath id="clip0_27_452">
+              <rect width="20" height="20" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+
+      </a>
+    </div>
+
           <h3>Order ID: {{ this.orderid }}</h3>
           <input v-model="comment" class="hidden" />
           <p>
@@ -143,6 +185,26 @@ viewBox="0 0 4257.46 889.51"
         </div>
 
         <div v-else-if="step == 'notebtc'">
+
+          <div class="back">
+      <a href="javascript:void(0)" @click="step = 'amountbtc'" v-if="step != 'start' && step != 'error' && step != 'thankyou'">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_27_452)">
+            <path class="inherit-textcolor"
+              d="M13.8994 6.99833e-10L4.70703 9.19239C4.3165 9.58291 4.3165 10.2161 4.70703 10.6066L13.8994 19.799"
+              stroke="white" stroke-width="2" stroke-linecap="round" />
+          </g>
+          <defs>
+            <clipPath id="clip0_27_452">
+              <rect width="20" height="20" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+
+      </a>
+    </div>
+
+
           <h3>Order ID BTC: {{ this.orderid }}</h3>
           <input v-model="comment" class="hidden" />
           <p>
@@ -166,6 +228,26 @@ viewBox="0 0 4257.46 889.51"
 
 
         <div v-else-if="step == 'qrbtc'">
+
+
+          <div class="back">
+      <a href="javascript:void(0)" @click="step = 'notebtc'" v-if="step != 'start' && step != 'error' && step != 'thankyou'">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_27_452)">
+            <path class="inherit-textcolor"
+              d="M13.8994 6.99833e-10L4.70703 9.19239C4.3165 9.58291 4.3165 10.2161 4.70703 10.6066L13.8994 19.799"
+              stroke="white" stroke-width="2" stroke-linecap="round" />
+          </g>
+          <defs>
+            <clipPath id="clip0_27_452">
+              <rect width="20" height="20" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+
+      </a>
+    </div>
+
           <div class="mb-1">
             <a :href="'bitcoin:'+ this.btcadressprop + '?amount=' + this.setpayamount + '&message=' + this.orderid">
               <!-- <img class="qr" width="150" height="150" :src="'https://embed.twentyuno.net/qr/' + paymentRequest"
@@ -182,6 +264,23 @@ viewBox="0 0 4257.46 889.51"
 
 
         <div v-else-if="step == 'pay'">
+          <!-- <div class="back">
+      <a href="javascript:void(0)" @click="step = 'note'" v-if="step != 'start' && step != 'error' && step != 'thankyou'">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_27_452)">
+            <path class="inherit-textcolor"
+              d="M13.8994 6.99833e-10L4.70703 9.19239C4.3165 9.58291 4.3165 10.2161 4.70703 10.6066L13.8994 19.799"
+              stroke="white" stroke-width="2" stroke-linecap="round" />
+          </g>
+          <defs>
+            <clipPath id="clip0_27_452">
+              <rect width="20" height="20" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+
+      </a>
+    </div> -->
           <svg width="100" height="100" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient x1="8.042%" y1="0%" x2="65.682%" y2="23.865%" id="a">
@@ -229,17 +328,36 @@ viewBox="0 0 4257.46 889.51"
           </a>
         </div>
         <div v-else-if="step == 'qr'">
+          <!-- <div class="back">
+      <a href="javascript:void(0)" @click="step = 'pay'" v-if="step != 'start' && step != 'error' && step != 'thankyou'">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_27_452)">
+            <path class="inherit-textcolor"
+              d="M13.8994 6.99833e-10L4.70703 9.19239C4.3165 9.58291 4.3165 10.2161 4.70703 10.6066L13.8994 19.799"
+              stroke="white" stroke-width="2" stroke-linecap="round" />
+          </g>
+          <defs>
+            <clipPath id="clip0_27_452">
+              <rect width="20" height="20" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+
+      </a>
+    </div> -->
           <div class="mb-1">
             <a :href="'lightning:' + paymentRequest">
               <!-- <img class="qr" width="150" height="150" :src="'https://embed.twentyuno.net/qr/' + paymentRequest"
                 alt="qr" /> -->
                 <img :src="qrCodeDataUrl" class="qr" width="150" height="150" alt="QR Code" />
+                <h4 class="qr-heading mt-4" >Scan or Click to pay</h4>
+
             </a>
           </div>
-          <Transition name="fade" mode="out-in">
-            <h4 class="qr-heading" v-if="!qrTimeoutElapsed">Scan or Click to pay</h4>
+          <!-- <Transition name="fade" mode="out-in"> -->
+            <!-- <h4 class="qr-heading" v-if="!qrTimeoutElapsed">Scan or Click to pay</h4> -->
             <!-- <button v-else class="button" @click="step = 'thankyou'; celebrate()">Done?</button> -->
-          </Transition>
+          <!-- </Transition> -->
         </div>
         <div v-else-if="step == 'thankyou'">
           <!-- <div><img v-if="image" class="image" :src="image" width="150" height="150" :alt="name" /></div> -->
@@ -295,7 +413,7 @@ export default {
     initialStep: { type: String, default: 'start' },
 
     // Amounts
-    payamount: {type: Number, default: 800},
+    payamount: {type: Number, default: 2500},
     setpayamount: {type: Number, default: 0.00008},
     shippingpay: {type: Number, default: 0.00003},
 
@@ -366,10 +484,11 @@ export default {
     else if (this.debug) {
       try {
         this.params = await fetchParams(this.to);
+        
         const minAmount = this.amountList.reduce((a, b) => Math.max(a.amount, b.amount));
         const maxAmount = this.amountList.reduce((a, b) => Math.min(a.amount, b.amount));
-        if (this.params.min > minAmount || this.params.max < maxAmount) {
-          this.error("Configuration error", `Please make sure the LNURL you provided allows payments between ${minAmount} and ${maxAmount} sats. (min: ${this.params.min}, max: ${this.params.max})`);
+        if (this.params.lnurlp.minSendable > minAmount || this.params.lnurlp.maxSendable < maxAmount) {
+          this.error("Configuration error", `Please make sure the LNURL you provided allows payments between ${minAmount} and ${maxAmount} sats. (min: ${this.params.lnurlp.minSendable}, max: ${this.params.lnurlp.maxSendable})`);
         }
       }
       catch (e) {
@@ -477,7 +596,7 @@ export default {
         // Fetch invoice
         try {
           invoice = await fetchInvoice(this.to || this.address, this.currentAmount, this.comment);
-          this.paymentRequest = invoice.payment_request;
+          this.paymentRequest = invoice.invoice.pr;
         }
         catch (e) {
           this.error('Sorry', 'An error happend during the payment. Try again?');
@@ -488,7 +607,7 @@ export default {
         webln = window.webln;
         if (webln) {
           await webln.enable();
-          await webln.sendPayment(invoice.payment_request);
+          await webln.sendPayment(invoice.invoice.pr);
 
           this.step = 'thankyou';
           this.celebrate();
@@ -508,10 +627,12 @@ export default {
     },
     showAmount: async function() {
       this.params = await fetchParams(this.to);
+      console.log(this.params)
       this.step = 'amount';
     },
     showAmountbtc: async function() {
       this.params = await fetchParams(this.to);
+      console.log(this.params.lnurlp.maxSendable)
       this.step = 'amountbtc';
     },
 
@@ -519,7 +640,7 @@ export default {
       if(this.currentAmount <= 0)
         return;
 
-      if(this.params.commentAllowed > 0) {
+      if(this.params.lnurlp.commentAllowed > 0) {
         this.step = 'note';
       } else {
         this.step = 'pay';
@@ -530,7 +651,7 @@ export default {
       if(this.currentAmount <= 0)
         return;
 
-      if(this.params.commentAllowed > 0) {
+      if(this.params.lnurlp.commentAllowed > 0) {
         this.step = 'notebtc';
       } else {
         this.step = 'paybtc';

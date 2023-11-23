@@ -1,4 +1,4 @@
-const host = "https://embed.twentyuno.net";
+const proxy = "https://proxy.lightning.eu";
 
 function contrastingColor(color)
 {
@@ -20,7 +20,7 @@ function hexToRGB(color)
 }
 
 async function fetchInvoice(to, amount, comment) {
-  const response = await fetch(host + `/invoice?to=${to}&amount=${amount}&comment=${comment}`, {
+  const response = await fetch(proxy + `/generate-invoice?ln=${to}&amount=${amount}&comment=${comment}`, {
     headers: {
       "Accept": "application/json",
       "Content-Type": "application/json",
@@ -30,12 +30,12 @@ async function fetchInvoice(to, amount, comment) {
   if(!response.ok) {
     throw new Error(response.error);
   }
-
   return response.json();
 }
 
 async function fetchParams(to) {
-  const response = await fetch(host + `/params?to=${to}`, {
+  const response = await fetch(proxy + `/lightning-address-details?ln=${to}`, {
+
     headers: {
       "Accept": "application/json",
       "Content-Type": "application/json",

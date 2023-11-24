@@ -5,8 +5,9 @@
     <div class="card" v-bind:style="backgroundImageStyle">
       <Transition name="fade" mode="out-in">
         <div v-if="step == 'start'">
-          <!-- <div><img v-if="image" class="image" :src="image" width="150" height="150" :alt="name" /></div>
-           -->
+          <div><img v-if="image" class="image" :src="image" width="150" height="150" :alt="name" /></div>
+          <h1 v-if="this.name"> {{ this.name }} </h1>
+
 
            <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="100%" height="100%" version="1.1" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd"
 viewBox="0 0 4257.46 889.51"
@@ -387,7 +388,7 @@ import QRCode from 'qrcode';
 export default {
   name: "LightningWidget",
   props: {
-    name: { type: String, required: true },
+    name: { type: String, required: true, default:"Kevin Gaethofs" },
     to: { type: String, required: true, default: "sync@walletofsatoshi.com" },
 
     amounts: { type: String, required: false, default: "Euro,Dollar" },

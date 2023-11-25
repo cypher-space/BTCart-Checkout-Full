@@ -31,7 +31,7 @@ viewBox="0 0 4257.46 889.51"
 
 
             <div>
-            <h3>Choose your payment method</h3>
+            <h3>{{ paymentText }}</h3>
           </div>
           <div>
             <button type="button" class="button margins" @click="showAmount()">⚡️ Lightning Network </button>
@@ -401,6 +401,7 @@ export default {
     // Style
     image: { type: String, required: true },
     accent: { type: String, default: '#20C997' },
+    paymentText: { type: String, default: 'Choose your payment method' },
     buttonText: { type: String, default: 'Donate sats' },
     backgroundImage: { type: String, default: null },
 

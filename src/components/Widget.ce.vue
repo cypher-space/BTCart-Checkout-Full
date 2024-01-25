@@ -139,7 +139,7 @@ viewBox="0 0 4257.46 889.51"
               
           </div>
           <div>
-            <button type="button" class="button" @click="showNotebtc()">Next</button>
+            <button type="button" class="button" @click="step = 'qrbtc'; paybtc()">Next</button>
           </div>
         </div>
 
@@ -232,7 +232,7 @@ viewBox="0 0 4257.46 889.51"
 
 
           <div class="back">
-      <a href="javascript:void(0)" @click="step = 'notebtc'" v-if="step != 'start' && step != 'error' && step != 'thankyou'">
+      <a href="javascript:void(0)" @click="step = 'amountbtc'" v-if="step != 'start' && step != 'error' && step != 'thankyou'">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g clip-path="url(#clip0_27_452)">
             <path class="inherit-textcolor"
@@ -388,7 +388,7 @@ import QRCode from 'qrcode';
 export default {
   name: "LightningWidget",
   props: {
-    name: { type: String, required: true, default:"Kevin Gaethofs" },
+    name: { type: String, required: true, default:" " },
     to: { type: String, required: true, default: "sync@walletofsatoshi.com" },
 
     amounts: { type: String, required: false, default: "Euro,Dollar" },
@@ -406,7 +406,7 @@ export default {
     backgroundImage: { type: String, default: null },
 
     // Deprecated --> use `to`
-    address: { type: String, required: false, default: "reneaaron@getalby.com" },
+    address: { type: String, required: false, default: "sync@walletofsatoshi.com" },
     addressbtc: { type: String, required: false, default: "bc1qr7t5l8jp8hu9wyhtyg6es644kj2m5rm3hcqak9" },
 
 
@@ -643,7 +643,8 @@ export default {
         return;
 
       if(this.params.lnurlp.commentAllowed > 0) {
-        this.step = 'note';
+        this.step = 'pay';
+        this.pay();
       } else {
         this.step = 'pay';
         this.pay();
@@ -670,7 +671,6 @@ export default {
       const steps = [
         'start',
         'amount',
-        'note',
         'pay',
         'qr',
       ];

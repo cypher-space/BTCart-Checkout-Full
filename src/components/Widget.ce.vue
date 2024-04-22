@@ -68,7 +68,7 @@ viewBox="0 0 4257.46 889.51"
             <h1>{{ this.setAmount }}</h1>
             <h3>{{ this.convertFiat }} dollar</h3>
             <h4>Curent bitcoin price {{ this.btcprice }} $</h4>
-            <h5>provided by YieldMonitor.io</h5>
+            <h5>Coinbase</h5>
             <!-- <h4>Change Fiat Estimate</h4> -->
 
           </div>
@@ -119,7 +119,7 @@ viewBox="0 0 4257.46 889.51"
             <h3>{{ this.convertFiat }} dollar</h3>
             <h5>This transaction will add onchain fees</h5>
             <h4>Curent bitcoin price {{ this.btcprice }} $</h4>
-            <h5>provided by YieldMonitor.io</h5>
+            <h5>provided by Coinbase</h5>
             <!-- <h4>Change Fiat Estimate</h4> -->
 
           </div>
@@ -534,7 +534,7 @@ export default {
 
 
     fetchBitcoinPrice() {
-      fetch('https://app.yieldmonitor.io/api/v2/symbol/ym/33913')
+      fetch('https://api.coinbase.com/v2/exchange-rates?currency=BTC')
         .then(response => {
           if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -543,7 +543,7 @@ export default {
           
         })
         .then(data => {
-          this.btcprice = Number(data.symbols[0].price).toFixed(2)
+          this.btcprice = Number(data.data.rates.USD).toFixed(2)
           this.convertFiat = (Number(this.btcprice) * Number(this.setAmount)).toFixed(2)
           // this.btcprice = Number(data._rawValue
           // console.log(datasub)

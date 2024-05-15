@@ -42,7 +42,7 @@ This will be the landing for Lightning.eu
 
 # Variable Example
 
-name="Kevin Gaethofs" 
+name="" 
 accent="#000" 
 to="sync@walletofsatoshi.com" 
 addressbtc="bc1qk52y0erynfmfddnwvnrpn3dhm6gn60ce9duejw"

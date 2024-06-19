@@ -36,7 +36,7 @@ viewBox="0 0 4257.46 889.51"
           <div>
             <button type="button" class="button margins" @click="showAmount()">⚡️ Lightning Network </button>
 
-            <button type="button" class="button margins" @click="showAmountbtc()">⛓️ Onchain Transaction </button>
+            <button type="button" v-if="this.onchain =='false'" class="button margins" @click="showAmountbtc()">⛓️ Onchain Transaction </button>
 
 
           </div>
@@ -395,6 +395,7 @@ export default {
 
     amounts: { type: String, required: false, default: "Euro,Dollar" },
     labels: { type: String, required: false },
+    onchain: { type: String, required: true, default: "false" },
 
     // Order
     products: { type: String, default:'stickers, books, tshirt' },
@@ -438,6 +439,7 @@ export default {
       btcprice:'',
       errorMessage: '',
       qrCodeDataUrl: '',
+      onchainallow: this.onchain,
       qrCodeDataUrlbtc: '',
       btcadressprop: this.addressbtc,
       amountList: [],

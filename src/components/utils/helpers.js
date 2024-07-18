@@ -1,4 +1,4 @@
-const proxy = "https://proxy.lightning.eu";
+const proxy = "https://api.getalby.com/lnurl";
 
 function contrastingColor(color)
 {
